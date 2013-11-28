@@ -1,0 +1,39 @@
+plugin.tx_quicknav {
+	view {
+		templateRootPath = {$plugin.tx_quicknav.view.templateRootPath}
+		partialRootPath = {$plugin.tx_quicknav.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_quicknav.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_quicknav.persistence.storagePid}
+	}
+	features {
+		# uncomment the following line to enable the new Property Mapper.
+		# rewrittenPropertyMapper = 1
+	}
+}
+
+plugin.tx_quicknav._CSS_DEFAULT_STYLE (
+	textarea.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	.tx-quicknav table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.tx-quicknav table th {
+		font-weight:bold;
+	}
+
+	.tx-quicknav table td {
+		vertical-align:top;
+	}
+)
