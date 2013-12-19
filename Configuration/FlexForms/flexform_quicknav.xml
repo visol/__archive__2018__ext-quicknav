@@ -1,0 +1,32 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+
+    <sheets>
+        <!--
+            ################################
+              SHEET General Settings
+            ################################
+        -->
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Settings</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.initialItem>
+                        <TCEforms>
+                            <label>LLL:EXT:quicknav/Resources/Private/Language/locallang_db.xlf:flexforms_general.initialItem</label>
+                            <config>
+                                <type>select</type>
+                                <foreign_table>tx_quicknav_domain_model_quicknavigationitem</foreign_table>
+                            </config>
+                        </TCEforms>
+                    </settings.initialItem>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

@@ -31,7 +31,19 @@ namespace Visol\Quicknav\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class QuickNavigationItemRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class QuickNavigationCategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository {
+
+	/**
+	 * Initializes the repository.
+	 *
+	 * @return void
+	 */
+	public function initializeObject() {
+		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+		$querySettings->setRespectStoragePage(TRUE);
+		$this->setDefaultQuerySettings($querySettings);
+	}
 
 }
 ?>

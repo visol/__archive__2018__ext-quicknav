@@ -24,6 +24,7 @@ namespace Visol\Quicknav\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\DebugUtility;
 
 /**
  *
@@ -42,20 +43,80 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	protected $quickNavigationItemRepository;
 
 	/**
+	 * categoryRepository
+	 *
+	 * @var \Visol\Quicknav\Domain\Repository\QuickNavigationCategoryRepository
+	 * @inject
+	 */
+	protected $categoryRepository;
+
+	/**
 	 * action render
 	 *
 	 * @return void
 	 */
 	public function renderAction() {
+		/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $initialItem */
+		$initialItem = $this->quickNavigationItemRepository->findByUid($this->settings['initialItem']);
 
+		//$level2Placeholder = $initialItem->getCategory()->getTitle();
+		$level1Placeholder = $initialItem->getCategory()->getParent()->getTitle();
+		$this->view->assignMultiple(array(
+			'level1Placeholder' => $level1Placeholder,
+		));
 	}
 
 	/**
 	 * action getData
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function getDataAction() {
+
+		$quickNavigationItems = $this->quickNavigationItemRepository->findAll();
+		$quickNavigationData = array();
+		foreach ($quickNavigationItems as $quickNavigationItem) {
+			/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $item */
+			$item = $quickNavigationItem;
+			$itemUid = $item->getUid();
+			if ($item->getCategory()) {
+				$categoryUid = $item->getCategory()->getUid();
+				if ($item->getCategory()->getParent()) {
+					// third level
+					$parentCategoryUid = $item->getCategory()->getParent()->getUid();
+					$quickNavigationData[$parentCategoryUid]['name'] = $item->getCategory()->getParent()->getTitle();
+					$quickNavigationData[$parentCategoryUid]['uid'] = $item->getCategory()->getParent()->getUid();
+					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['name'] = $item->getCategory()->getTitle();
+					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['uid'] = $item->getCategory()->getUid();
+					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['parentUid'] = $parentCategoryUid;
+					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['name'] = $item->getName();
+					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['uid'] = $itemUid;
+					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['parentUid'] = $categoryUid;
+					if ($item->getShortcut() !== '') {
+						$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['targetUrl'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($item->getShortcut())->build();
+					}
+				} else {
+					// second level
+					$quickNavigationData[$categoryUid]['name'] = $item->getCategory()->getTitle();
+					$quickNavigationData[$categoryUid]['uid'] = $item->getCategory()->getUid();
+					$quickNavigationData[$categoryUid]['children'][$itemUid]['name'] = $item->getName();
+					$quickNavigationData[$categoryUid]['children'][$itemUid]['uid'] = $itemUid;
+					$quickNavigationData[$categoryUid]['children'][$itemUid]['parentUid'] = $categoryUid;
+					if ($item->getShortcut() !== '') {
+						$quickNavigationData[$categoryUid]['children'][$itemUid]['targetUrl'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($item->getShortcut())->build();
+					}
+				}
+			} else {
+				// first level
+				$quickNavigationData[$itemUid]['name'] = $item->getName();
+				$quickNavigationData[$itemUid]['uid'] = $itemUid;
+				if ($item->getShortcut() !== '') {
+					$quickNavigationData[$itemUid]['targetUrl'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($item->getShortcut())->build();
+				}
+			}
+		}
+
+		return json_encode($quickNavigationData);
 
 	}
 

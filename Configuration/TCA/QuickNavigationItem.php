@@ -115,7 +115,7 @@ $TCA['tx_quicknav_domain_model_quicknavigationitem'] = array(
 				'allowed' => 'pages',
 				'size' => 1,
 				'maxitems' => 1,
-				'minitems' => 0,
+				'minitems' => 1,
 				'show_thumbs' => 1,
 				'wizards' => array(
 					'suggest' => array(
@@ -123,15 +123,6 @@ $TCA['tx_quicknav_domain_model_quicknavigationitem'] = array(
 					),
 				),
 			)
-		),
-		'category' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:quicknav/Resources/Private/Language/locallang_db.xlf:tx_quicknav_domain_model_quicknavigationitem.category',
-			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim'
-			),
 		),
 	),
 );
