@@ -17,7 +17,7 @@
 				<source>Shortcut</source>
 			</trans-unit>
 			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.category">
-				<source>Category</source>
+				<source>Category, Item</source>
 			</trans-unit>
 
 		</body>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-11-28T07:58:52Z" product-name="quicknav">
+		<header/>
+		<body>
+			<trans-unit id="pleaseChoose">
+				<source>please choose...</source>
+				<target>bitte wählen...</target>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

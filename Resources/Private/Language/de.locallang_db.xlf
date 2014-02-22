@@ -20,8 +20,8 @@
 				<target>Link</target>
 			</trans-unit>
 			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.category">
-				<source>Category</source>
-				<target>Kategorie</target>
+				<source>Category, Item</source>
+				<target>Kategorie, Element</target>
 			</trans-unit>
 		</body>
 	</file>
