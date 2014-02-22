@@ -58,12 +58,14 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	public function renderAction() {
 		/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $initialItem */
 		$initialItem = $this->quickNavigationItemRepository->findByUid($this->settings['initialItem']);
+		if ($initialItem instanceof \Visol\Quicknav\Domain\Model\QuickNavigationItem) {
 
-		//$level2Placeholder = $initialItem->getCategory()->getTitle();
-		$level1Placeholder = $initialItem->getCategory()->getParent()->getTitle();
-		$this->view->assignMultiple(array(
-			'level1Placeholder' => $level1Placeholder,
-		));
+			$level1Placeholder = $initialItem->getCategory()->getParent()->getTitle();
+			$this->view->assignMultiple(array(
+				'level1Placeholder' => $level1Placeholder,
+			));
+
+		}
 	}
 
 	/**
