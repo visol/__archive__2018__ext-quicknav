@@ -8,7 +8,6 @@ if (!defined('TYPO3_MODE')) {
 	'Quicknavigation',
 	array(
 		'QuickNavigationItem' => 'render, getData',
-		
 	),
 	// non-cacheable actions
 	array(
