@@ -16,7 +16,9 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tx_quicknav_domain_model_quicknavigationitem'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:quicknav/Resources/Private/Language/locallang_db.xlf:tx_quicknav_domain_model_quicknavigationitem',
-		'label' => 'name',
+		'label' => 'category',
+		'label_alt' => 'name',
+		'label_alt_force' => 1,
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
