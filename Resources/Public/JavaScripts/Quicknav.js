@@ -37,7 +37,7 @@ $(function() {
 							// we have children, so we build the next navigation level
 							$.each(data[selectedParentUid]['children'][selectedUid].children, function(key, item){
 								var optionElements = buildSelectOption(item);
-								$nextLevel.append(optionElements);
+								$nextLevel.append(optionElements).removeAttr('disabled');
 							})
 						}
 					} else {
@@ -54,6 +54,8 @@ $(function() {
 						$.each(data[selectedUid].children, function(key, item){
 							var optionElements = buildSelectOption(item);
 							$nextLevel.append(optionElements);
+							// disable third level
+							$('#level3').attr('disabled', 'disabled');
 						})
 					}
 				} else {
