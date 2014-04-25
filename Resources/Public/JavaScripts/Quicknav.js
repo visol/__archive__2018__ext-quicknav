@@ -1,5 +1,5 @@
 $(function() {
-	if (typeof dataUrl !== undefined) {
+	if (typeof(dataUrl) !== 'undefined') {
 		// load the quick navigation data
 		var data;
 		$.getJSON(
@@ -69,7 +69,7 @@ $(function() {
 
 function buildSelectOption(item) {
     var optionElement = $("<option></option>").attr("value", item.uid).attr("data-parent-uid", item.parentUid).text(item.name);
-    if (item.targetUrl !== typeof undefined) {
+    if (typeof(item.targetUrl) !== 'undefined') {
         optionElement.attr("data-target-url", item.targetUrl);
     }
     return optionElement;
