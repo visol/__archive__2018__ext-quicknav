@@ -69,56 +69,65 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 
 		$level1Categories = $this->categoryRepository->findByParent((int)$this->settings['rootCategoryUid']);
 		if ($level1Categories->count()) {
+			$level1Iterator = 1;
 			foreach ($level1Categories as $level1Category) {
 				/** @var \Visol\Quicknav\Domain\Model\Category $level1Category */
-				$data[$level1Category->getUid()]['label'] = $level1Category->getTitle();
-				$data[$level1Category->getUid()]['uid'] = $level1Category->getUid();
-				$data[$level1Category->getUid()]['parent'] = $level1Category->getParentcategory()->getUid();
-				$data[$level1Category->getUid()]['sorting'] = $level1Category->getSorting();
+				$data[$level1Iterator]['label'] = $level1Category->getTitle();
+				$data[$level1Iterator]['uid'] = $level1Category->getUid();
+				$data[$level1Iterator]['parent'] = $level1Category->getParentcategory()->getUid();
+				$data[$level1Iterator]['sorting'] = $level1Category->getSorting();
 
 				$level2Categories = $this->categoryRepository->findByParent($level1Category->getUid());
 				if ($level2Categories->count()) {
+					$level2Iterator = 1;
 					foreach ($level2Categories as $level2Category) {
 						/** @var \Visol\Quicknav\Domain\Model\Category $level2Category */
-						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['label'] = $level2Category->getTitle();
-						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['uid'] = $level2Category->getUid();
-						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['parent'] = $level2Category->getParentcategory()->getUid();
-						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['sorting'] = $level2Category->getSorting();
+						$data[$level1Iterator]['sub'][$level2Iterator]['label'] = $level2Category->getTitle();
+						$data[$level1Iterator]['sub'][$level2Iterator]['uid'] = $level2Category->getUid();
+						$data[$level1Iterator]['sub'][$level2Iterator]['parent'] = $level2Category->getParentcategory()->getUid();
+						$data[$level1Iterator]['sub'][$level2Iterator]['sorting'] = $level2Category->getSorting();
 
 						$level3Items = $this->quickNavigationItemRepository->findByCategory($level2Category);
 						if ($level3Items->count()) {
+							$level3ItemIterator = 1;
 							foreach ($level3Items as $level3Item) {
 								/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $level3Item */
-								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['label'] = $level3Item->getName();
-								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['uid'] = $level3Item->getUid();
-								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level3Item->getShortcut())->build();
-								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['parent'] = $level2Category->getUid();
+								$data[$level1Iterator]['sub'][$level2Iterator]['items']['item-' . $level3ItemIterator]['label'] = $level3Item->getName();
+								$data[$level1Iterator]['sub'][$level2Iterator]['items']['item-' . $level3ItemIterator]['uid'] = $level3Item->getUid();
+								$data[$level1Iterator]['sub'][$level2Iterator]['items']['item-' . $level3ItemIterator]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level3Item->getShortcut())->build();
+								$data[$level1Iterator]['sub'][$level2Iterator]['items']['item-' . $level3ItemIterator]['parent'] = $level2Category->getUid();
+								$level3ItemIterator++;
 							}
 						}
+						$level2Iterator++;
 					}
 				}
 				$level2Items = $this->quickNavigationItemRepository->findByCategory($level1Category);
 				if ($level2Items->count()) {
+					$level2ItemIterator = 1;
 					foreach ($level2Items as $level2Item) {
 						/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $level2Item */
-						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['label'] = $level2Item->getName();
-						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['uid'] = $level2Item->getUid();
-						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level2Item->getShortcut())->build();
-						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['parent'] = $level1Category->getUid();
+						$data[$level1Iterator]['items']['item-' . $level2ItemIterator]['label'] = $level2Item->getName();
+						$data[$level1Iterator]['items']['item-' . $level2ItemIterator]['uid'] = $level2Item->getUid();
+						$data[$level1Iterator]['items']['item-' . $level2ItemIterator]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level2Item->getShortcut())->build();
+						$data[$level1Iterator]['items']['item-' . $level2ItemIterator]['parent'] = $level1Category->getUid();
+						$level2ItemIterator++;
 					}
 				}
-
+				$level1Iterator++;
 
 			}
 		}
 		$level1Items = $this->quickNavigationItemRepository->findByCategory((int)$this->settings['rootCategoryUid']);
 		if ($level1Items->count()) {
+			$level1ItemIterator = 1;
 			foreach ($level1Items as $level1Item) {
 				/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $level1Item */
-				$data['item-' . $level1Item->getUid()]['label'] = $level1Item->getName();
-				$data['item-' . $level1Item->getUid()]['uid'] = $level1Item->getUid();
-				$data['item-' . $level1Item->getUid()]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level1Item->getShortcut())->build();
-				$data['item-' . $level1Item->getUid()]['parent'] = (int)$this->settings['rootCategoryUid'];
+				$data['item-' . $level1ItemIterator]['label'] = $level1Item->getName();
+				$data['item-' . $level1ItemIterator]['uid'] = $level1Item->getUid();
+				$data['item-' . $level1ItemIterator]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level1Item->getShortcut())->build();
+				$data['item-' . $level1ItemIterator]['parent'] = (int)$this->settings['rootCategoryUid'];
+				$level1ItemIterator++;
 			}
 		}
 		return json_encode($data);
