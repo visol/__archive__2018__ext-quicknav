@@ -52,9 +52,9 @@ class QuickNavigationItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 	/**
 	 * Categories
 	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Model\Category
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
 	 */
-	protected $category;
+	protected $categories;
 
 	/**
 	 * Returns the name
@@ -63,16 +63,6 @@ class QuickNavigationItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 	 */
 	public function getName() {
 		return $this->name;
-	}
-
-	/**
-	 * Sets the name
-	 *
-	 * @param \string $name
-	 * @return void
-	 */
-	public function setName($name) {
-		$this->name = $name;
 	}
 
 	/**
@@ -85,22 +75,12 @@ class QuickNavigationItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 	}
 
 	/**
-	 * Sets the shortcut
+	 * Returns the categories
 	 *
-	 * @param \string $shortcut
-	 * @return void
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
 	 */
-	public function setShortcut($shortcut) {
-		$this->shortcut = $shortcut;
-	}
-
-	/**
-	 * Returns the category
-	 *
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\Category
-	 */
-	public function getCategory() {
-		return $this->category;
+	public function getCategories() {
+		return $this->categories;
 	}
 
 }

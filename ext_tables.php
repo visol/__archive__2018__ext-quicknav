@@ -47,20 +47,13 @@ $TCA['tx_quicknav_domain_model_quicknavigationitem'] = array(
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
 	$_EXTKEY,
 	'tx_quicknav_domain_model_quicknavigationitem',
-	'category',
+	'categories',
 	array(
-		'label' => 'LLL:EXT:quicknav/Resources/Private/Language/locallang_db.xlf:tx_quicknav_domain_model_quicknavigationitem.category',
+		'label' => 'LLL:EXT:quicknav/Resources/Private/Language/locallang_db.xlf:tx_quicknav_domain_model_quicknavigationitem.categories',
 		'fieldConfiguration' => array(
-			'maxitems' => 1,
 			'foreign_table_where' => 'AND sys_category.pid=###CURRENT_PID### ORDER BY sys_category.sorting ASC'
 		),
 	)
 );
-
-$extensionName = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY);
-$pluginSignature = strtolower($extensionName) . '_quicknavigation';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_quicknav.xml');
-
 
 ?>

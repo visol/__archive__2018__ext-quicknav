@@ -45,7 +45,7 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	/**
 	 * categoryRepository
 	 *
-	 * @var \Visol\Quicknav\Domain\Repository\QuickNavigationCategoryRepository
+	 * @var \Visol\Quicknav\Domain\Repository\CategoryRepository
 	 * @inject
 	 */
 	protected $categoryRepository;
@@ -56,16 +56,6 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	 * @return void
 	 */
 	public function renderAction() {
-		/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $initialItem */
-		$initialItem = $this->quickNavigationItemRepository->findByUid($this->settings['initialItem']);
-		if ($initialItem instanceof \Visol\Quicknav\Domain\Model\QuickNavigationItem) {
-
-			$level1Placeholder = $initialItem->getCategory()->getParent()->getTitle();
-			$this->view->assignMultiple(array(
-				'level1Placeholder' => $level1Placeholder,
-			));
-
-		}
 	}
 
 	/**
@@ -75,50 +65,61 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	 */
 	public function getDataAction() {
 
-		$quickNavigationItems = $this->quickNavigationItemRepository->findAll();
-		$quickNavigationData = array();
-		foreach ($quickNavigationItems as $quickNavigationItem) {
-			/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $item */
-			$item = $quickNavigationItem;
-			$itemUid = $item->getUid();
-			if ($item->getCategory()) {
-				$categoryUid = $item->getCategory()->getUid();
-				if ($item->getCategory()->getParent()) {
-					// third level
-					$parentCategoryUid = $item->getCategory()->getParent()->getUid();
-					$quickNavigationData[$parentCategoryUid]['name'] = $item->getCategory()->getParent()->getTitle();
-					$quickNavigationData[$parentCategoryUid]['uid'] = $item->getCategory()->getParent()->getUid();
-					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['name'] = $item->getCategory()->getTitle();
-					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['uid'] = $item->getCategory()->getUid();
-					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['parentUid'] = $parentCategoryUid;
-					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['name'] = $item->getName();
-					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['uid'] = $itemUid;
-					$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['parentUid'] = $categoryUid;
-					if ($item->getShortcut() !== '') {
-						$quickNavigationData[$parentCategoryUid]['children'][$categoryUid]['children'][$itemUid]['targetUrl'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($item->getShortcut())->build();
-					}
-				} else {
-					// second level
-					$quickNavigationData[$categoryUid]['name'] = $item->getCategory()->getTitle();
-					$quickNavigationData[$categoryUid]['uid'] = $item->getCategory()->getUid();
-					$quickNavigationData[$categoryUid]['children'][$itemUid]['name'] = $item->getName();
-					$quickNavigationData[$categoryUid]['children'][$itemUid]['uid'] = $itemUid;
-					$quickNavigationData[$categoryUid]['children'][$itemUid]['parentUid'] = $categoryUid;
-					if ($item->getShortcut() !== '') {
-						$quickNavigationData[$categoryUid]['children'][$itemUid]['targetUrl'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($item->getShortcut())->build();
+		$data = array();
+
+		$level1Categories = $this->categoryRepository->findByParent((int)$this->settings['rootCategoryUid']);
+		if ($level1Categories->count()) {
+			foreach ($level1Categories as $level1Category) {
+				/** @var \Visol\Quicknav\Domain\Model\Category $level1Category */
+				$data[$level1Category->getUid()]['label'] = $level1Category->getTitle();
+				$data[$level1Category->getUid()]['uid'] = $level1Category->getUid();
+				$data[$level1Category->getUid()]['parent'] = $level1Category->getParentcategory()->getUid();
+
+				$level2Categories = $this->categoryRepository->findByParent($level1Category->getUid());
+				if ($level2Categories->count()) {
+					foreach ($level2Categories as $level2Category) {
+						/** @var \Visol\Quicknav\Domain\Model\Category $level2Category */
+						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['label'] = $level2Category->getTitle();
+						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['uid'] = $level2Category->getUid();
+						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['parent'] = $level2Category->getParentcategory()->getUid();
+
+						$level3Items = $this->quickNavigationItemRepository->findByCategory($level2Category);
+						if ($level3Items->count()) {
+							foreach ($level3Items as $level3Item) {
+								/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $level3Item */
+								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['label'] = $level3Item->getName();
+								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['uid'] = $level3Item->getUid();
+								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level3Item->getShortcut())->build();
+								$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['items']['item-' . $level3Item->getUid()]['parent'] = $level2Category->getUid();
+							}
+						}
 					}
 				}
-			} else {
-				// first level
-				$quickNavigationData[$itemUid]['name'] = $item->getName();
-				$quickNavigationData[$itemUid]['uid'] = $itemUid;
-				if ($item->getShortcut() !== '') {
-					$quickNavigationData[$itemUid]['targetUrl'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($item->getShortcut())->build();
+				$level2Items = $this->quickNavigationItemRepository->findByCategory($level1Category);
+				if ($level2Items->count()) {
+					foreach ($level2Items as $level2Item) {
+						/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $level2Item */
+						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['label'] = $level2Item->getName();
+						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['uid'] = $level2Item->getUid();
+						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level2Item->getShortcut())->build();
+						$data[$level1Category->getUid()]['items']['item-' . $level2Item->getUid()]['parent'] = $level1Category->getUid();
+					}
 				}
+
+
 			}
 		}
-
-		return json_encode($quickNavigationData);
+		$level1Items = $this->quickNavigationItemRepository->findByCategory((int)$this->settings['rootCategoryUid']);
+		if ($level1Items->count()) {
+			foreach ($level1Items as $level1Item) {
+				/** @var \Visol\Quicknav\Domain\Model\QuickNavigationItem $level1Item */
+				$data['item-' . $level1Item->getUid()]['label'] = $level1Item->getName();
+				$data['item-' . $level1Item->getUid()]['uid'] = $level1Item->getUid();
+				$data['item-' . $level1Item->getUid()]['link'] = $this->uriBuilder->setCreateAbsoluteUri(TRUE)->setTargetPageUid($level1Item->getShortcut())->build();
+				$data['item-' . $level1Item->getUid()]['parent'] = (int)$this->settings['rootCategoryUid'];
+			}
+		}
+		return json_encode($data);
 
 	}
 

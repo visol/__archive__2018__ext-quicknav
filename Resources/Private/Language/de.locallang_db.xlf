@@ -3,10 +3,6 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2013-11-28T07:58:52Z" product-name="quicknav">
 		<header/>
 		<body>
-			<trans-unit id="flexforms_general.initialItem">
-				<source>Initial Item</source>
-				<target>Vorgewähltes Element</target>
-			</trans-unit>
 			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem">
 				<source>Quick Navigation Item</source>
 				<target>Schnellnavigations-Element</target>
@@ -19,9 +15,9 @@
 				<source>Shortcut</source>
 				<target>Link</target>
 			</trans-unit>
-			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.category">
-				<source>Category, Item</source>
-				<target>Kategorie, Element</target>
+			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.categories">
+				<source>Categories</source>
+				<target>Kategorien</target>
 			</trans-unit>
 		</body>
 	</file>

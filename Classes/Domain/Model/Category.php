@@ -1,5 +1,5 @@
 <?php
-namespace Visol\Quicknav\Domain\Repository;
+namespace Visol\Quicknav\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
@@ -31,14 +31,21 @@ namespace Visol\Quicknav\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class QuickNavigationItemRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category {
 
-	public function findByCategory($category) {
-		$query = $this->createQuery();
-		$query->matching(
-			$query->contains('categories', $category)
-		);
-		return $query->execute();
+	/**
+	 * @var \Visol\Quicknav\Domain\Model\Category
+	 * @lazy
+	 */
+	protected $parentcategory;
+
+	/**
+	 * Get parent category
+	 *
+	 * @return \Visol\Quicknav\Domain\Model\Category|NULL
+	 */
+	public function getParentcategory() {
+		return $this->parentcategory;
 	}
 
 }

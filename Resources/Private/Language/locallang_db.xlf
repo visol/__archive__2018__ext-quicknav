@@ -4,9 +4,6 @@
 		<header/>
 		<body>
 
-			<trans-unit id="flexforms_general.initialItem">
-				<source>Initial Item</source>
-			</trans-unit>
 			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem">
 				<source>Quick Navigation Item</source>
 			</trans-unit>
@@ -16,8 +13,8 @@
 			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.shortcut">
 				<source>Shortcut</source>
 			</trans-unit>
-			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.category">
-				<source>Category, Item</source>
+			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.categories">
+				<source>Categories</source>
 			</trans-unit>
 
 		</body>

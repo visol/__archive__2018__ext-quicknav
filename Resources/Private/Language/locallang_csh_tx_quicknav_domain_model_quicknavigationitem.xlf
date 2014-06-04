@@ -10,8 +10,8 @@
 			<trans-unit id="shortcut.description">
 				<source>Shortcut</source>
 			</trans-unit>
-			<trans-unit id="category.description">
-				<source>Category</source>
+			<trans-unit id="categories.description">
+				<source>Categories</source>
 			</trans-unit>
 		</body>
 	</file>

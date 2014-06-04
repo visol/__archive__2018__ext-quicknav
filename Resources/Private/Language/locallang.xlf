@@ -13,8 +13,8 @@
 			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.shortcut">
 				<source>Shortcut</source>
 			</trans-unit>
-			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.category">
-				<source>Category</source>
+			<trans-unit id="tx_quicknav_domain_model_quicknavigationitem.categories">
+				<source>Categories</source>
 			</trans-unit>
 			<trans-unit id="pleaseChoose">
 				<source>please choose...</source>
