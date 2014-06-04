@@ -34,6 +34,11 @@ namespace Visol\Quicknav\Domain\Model;
 class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category {
 
 	/**
+	 * @var integer
+	 */
+	protected $sorting;
+
+	/**
 	 * @var \Visol\Quicknav\Domain\Model\Category
 	 * @lazy
 	 */
@@ -46,6 +51,20 @@ class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category {
 	 */
 	public function getParentcategory() {
 		return $this->parentcategory;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSorting() {
+		return $this->sorting;
+	}
+
+	/**
+	 * @param int $sorting
+	 */
+	public function setSorting($sorting) {
+		$this->sorting = $sorting;
 	}
 
 }
