@@ -50,5 +50,16 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
+	public function findByParent($parent) {
+		$query = $this->createQuery();
+		$query->matching(
+			$query->equals('parent', $parent)
+		);
+		$query->setOrderings(
+			$this->defaultOrderings
+		);
+		return $query->execute();
+	}
+
 }
 ?>
