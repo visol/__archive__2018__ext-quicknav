@@ -74,6 +74,7 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 				$data[$level1Category->getUid()]['label'] = $level1Category->getTitle();
 				$data[$level1Category->getUid()]['uid'] = $level1Category->getUid();
 				$data[$level1Category->getUid()]['parent'] = $level1Category->getParentcategory()->getUid();
+				$data[$level1Category->getUid()]['sorting'] = $level1Category->getSorting();
 
 				$level2Categories = $this->categoryRepository->findByParent($level1Category->getUid());
 				if ($level2Categories->count()) {
@@ -82,6 +83,7 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['label'] = $level2Category->getTitle();
 						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['uid'] = $level2Category->getUid();
 						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['parent'] = $level2Category->getParentcategory()->getUid();
+						$data[$level1Category->getUid()]['sub'][$level2Category->getUid()]['sorting'] = $level2Category->getSorting();
 
 						$level3Items = $this->quickNavigationItemRepository->findByCategory($level2Category);
 						if ($level3Items->count()) {
