@@ -33,6 +33,10 @@ namespace Visol\Quicknav\Domain\Repository;
  */
 class QuickNavigationItemRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
+	protected $defaultOrderings = array(
+		'name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+	);
+
 	public function findByCategory($category) {
 		$query = $this->createQuery();
 		$query->matching(

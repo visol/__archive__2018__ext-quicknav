@@ -33,6 +33,11 @@ namespace Visol\Quicknav\Domain\Repository;
  */
 class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository {
 
+	protected $defaultOrderings = array(
+		 'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+		 'title' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+	);
+
 	/**
 	 * Initializes the repository.
 	 *
