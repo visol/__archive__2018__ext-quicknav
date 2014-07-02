@@ -51,11 +51,19 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	protected $categoryRepository;
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder
+	 * @inject
+	 */
+	protected $uriBuilder;
+
+	/**
 	 * action render
 	 *
 	 * @return void
 	 */
 	public function renderAction() {
+		$dataUrl = $this->uriBuilder->setTargetPageUid(1)->setTargetPageType(20140702)->setCreateAbsoluteUri(TRUE)->setAbsoluteUriScheme('https')->build();
+		$this->view->assign('dataUrl', $dataUrl);
 	}
 
 	/**

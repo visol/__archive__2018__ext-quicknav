@@ -31,7 +31,7 @@ $(function() {
 					// remove all options except for the placeholder
 					$nextLevel.find('option').remove();
 
-					nextLevelSelectOptions = findByLevelAndParentUid(nextLevelNumber, selectedUid);
+					var nextLevelSelectOptions = findByLevelAndParentUid(nextLevelNumber, selectedUid);
 					var firstOptionOfNewSelection = nextLevelSelectOptions[Object.keys(nextLevelSelectOptions)[0]];
 					if (typeof(firstOptionOfNewSelection.attr('data-target-url')) !== 'undefined') {
 						// the first item of a new selection is a link item --> we need to prepend a placeholder
@@ -40,7 +40,7 @@ $(function() {
 					} else {
 						// the first item of a new selection is a category, so we open the items in the next level
 						$nextNextLevel.find('option').not($('.optionPlaceholder')).remove();
-						$nextNextLevelSelectOptions = findByLevelAndParentUid(nextNextLevelNumber, firstOptionOfNewSelection.val());
+						var $nextNextLevelSelectOptions = findByLevelAndParentUid(nextNextLevelNumber, firstOptionOfNewSelection.val());
 						$nextNextLevel.append($nextNextLevelSelectOptions).removeAttr('disable');
 					}
 					$nextLevel.append(nextLevelSelectOptions);
