@@ -74,7 +74,6 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	public function getDataAction() {
 
 		$data = array();
-
 		$level1Categories = $this->categoryRepository->findByParent((int)$this->settings['rootCategoryUid']);
 		if ($level1Categories->count()) {
 			$level1Iterator = 1;
