@@ -25,6 +25,7 @@ namespace Visol\Quicknav\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
 /**
  *
@@ -72,6 +73,7 @@ class QuickNavigationItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\Ac
 	 * @return string
 	 */
 	public function getDataAction() {
+		//\TYPO3\CMS\Core\Utility\DebugUtility::debug($this->configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FRAMEWORK));
 
 		$data = array();
 		$level1Categories = $this->categoryRepository->findByParent((int)$this->settings['rootCategoryUid']);

@@ -37,20 +37,9 @@ class QuickNavigationItemRepository extends \TYPO3\CMS\Extbase\Persistence\Repos
 		'name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
 	);
 
-	/**
-	 * Initializes the repository.
-	 *
-	 * @return void
-	 */
-	public function initializeObject() {
-		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-		$querySettings->setRespectSysLanguage(FALSE);
-		$this->setDefaultQuerySettings($querySettings);
-	}
-
 	public function findByCategory($category) {
 		$query = $this->createQuery();
+		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 		$query->matching(
 			$query->contains('categories', $category)
 		);
