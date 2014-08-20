@@ -5,7 +5,8 @@ config.tx_extbase{
                 mapping {
                     tableName = sys_category
                     columns {
-                    	parent.mapOnProperty = parentcategory
+						parent.mapOnProperty = parentcategory
+						sorting.mapOnProperty = sorting
                     }
                 }
             }
