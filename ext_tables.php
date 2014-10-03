@@ -16,7 +16,7 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tx_quicknav_domain_model_quicknavigationitem'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:quicknav/Resources/Private/Language/locallang_db.xlf:tx_quicknav_domain_model_quicknavigationitem',
-		'label' => 'category',
+		'label' => 'categories',
 		'label_alt' => 'name',
 		'label_alt_force' => 1,
 		'tstamp' => 'tstamp',
@@ -38,7 +38,7 @@ $TCA['tx_quicknav_domain_model_quicknavigationitem'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,shortcut,category,',
+		'searchFields' => 'name,shortcut,categories,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/QuickNavigationItem.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_quicknav_domain_model_quicknavigationitem.gif'
 	),
