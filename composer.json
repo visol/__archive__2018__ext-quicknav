@@ -1,0 +1,7 @@
+{
+	"name": "visol/quicknav",
+	"type": "typo3-cms-extension",
+	"description": "Structured Quick Navigation",
+	"homepage": "https://github.com/visol/wizard_crpagetree",
+	"license": ["GPL-2.0+"]
+}
